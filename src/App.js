@@ -1,24 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import MUIPagination from "./components/MUIPagination";
+import MUIUserInfos from "./components/MUIUserInfos";
+import { METADATA } from "./const";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import VanillaUserInfos from "./components/VanillaUserInfos";
+import VanillaPagination from "./components/VanillaPagination";
+import Typography from "@mui/material/Typography";
 
 function App() {
+  const [vanillaDisplayData, setVanillaDisplayData] = useState();
+  const [muiDisplayData, setMuiDisplayData] = useState();
+
+  const getVanillaPaginationInfo = (value) => {
+    const showData = METADATA.slice(value.startIndex - 1, value.toIndex);
+    setVanillaDisplayData(showData);
+  };
+
+  const getMuiPaginationInfo = (value) => {
+    const showData = METADATA.slice(value.startIndex - 1, value.toIndex);
+    setMuiDisplayData(showData);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Typography variant="h2" align="center">
+          Contact List
+        </Typography>
+        <div
+          className="App"
+          style={{ display: "flex", justifyContent: "space-around" }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <div>
+            {muiDisplayData ? (
+              <MUIUserInfos displayData={muiDisplayData} />
+            ) : (
+              <p>Loading data...</p>
+            )}
+            <MUIPagination
+              totalUser={METADATA.length}
+              getPaginationInfo={getMuiPaginationInfo}
+            />
+          </div>
+          <div>
+            {vanillaDisplayData ? (
+              <VanillaUserInfos displayData={vanillaDisplayData} />
+            ) : (
+              <p>Loading data...</p>
+            )}
+            <VanillaPagination
+              totalUser={METADATA.length}
+              getPaginationInfo={getVanillaPaginationInfo}
+            />
+          </div>
+        </div>
+      </Container>
+    </>
   );
 }
 
