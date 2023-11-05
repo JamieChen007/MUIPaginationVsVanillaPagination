@@ -1,26 +1,28 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-const VanillaPagination = ({ totalUser, getPaginationInfo }) => {
+const VanillaPagination = ({ totalUser, getVanillaPaginationInfo }) => {
   const [pageLimit, setPageLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [startIndex, setStartIndex] = useState(1);
-  const [toIndex, setToIndex] = useState(1);
+  const startIndex = 1 + pageLimit * (currentPage - 1);
+  const toIndex =
+    pageLimit * currentPage > totalUser ? totalUser : pageLimit * currentPage;
 
   const onOptionChange = (value) => {
     setPageLimit(value);
     setCurrentPage(1);
   };
 
-  useEffect(() => {
-    setStartIndex(1 + pageLimit * (currentPage - 1));
-    setToIndex(
-      pageLimit * currentPage > totalUser ? totalUser : pageLimit * currentPage
-    );
-  }, [pageLimit, currentPage, totalUser]);
+  const onPrevBtnClick = () => {
+    setCurrentPage((prev) => prev - 1);
+  };
+
+  const onNextBtnClick = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
 
   useEffect(() => {
-    getPaginationInfo({
+    getVanillaPaginationInfo({
       startIndex,
       toIndex,
     });
@@ -65,7 +67,7 @@ const VanillaPagination = ({ totalUser, getPaginationInfo }) => {
       </span>
       <button
         style={currentPage === 1 ? notClickStyles : ClickStyles}
-        onClick={() => setCurrentPage((prev) => prev - 1)}
+        onClick={onPrevBtnClick}
       >{`<`}</button>
       <button
         style={
@@ -73,7 +75,7 @@ const VanillaPagination = ({ totalUser, getPaginationInfo }) => {
             ? notClickStyles
             : ClickStyles
         }
-        onClick={() => setCurrentPage((prev) => prev + 1)}
+        onClick={onNextBtnClick}
       >{`>`}</button>
     </div>
   );

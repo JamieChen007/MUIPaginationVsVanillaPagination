@@ -5,15 +5,10 @@ import TablePagination from "@mui/material/TablePagination";
 const MUIPagination = ({ totalUser, getPaginationInfo }) => {
   const [pageLimit, setPageLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [startIndex, setStartIndex] = useState(1);
-  const [toIndex, setToIndex] = useState(1);
 
-  useEffect(() => {
-    setStartIndex(1 + pageLimit * (currentPage - 1));
-    setToIndex(
-      pageLimit * currentPage > totalUser ? totalUser : pageLimit * currentPage
-    );
-  }, [pageLimit, currentPage, totalUser]);
+  const startIndex = 1 + pageLimit * (currentPage - 1);
+  const toIndex =
+    pageLimit * currentPage > totalUser ? totalUser : pageLimit * currentPage;
 
   useEffect(() => {
     getPaginationInfo({

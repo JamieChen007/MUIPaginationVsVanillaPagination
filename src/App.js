@@ -13,14 +13,14 @@ function App() {
   const [vanillaDisplayData, setVanillaDisplayData] = useState();
   const [muiDisplayData, setMuiDisplayData] = useState();
 
-  const getVanillaPaginationInfo = (value) => {
-    const showData = METADATA.slice(value.startIndex - 1, value.toIndex);
-    setVanillaDisplayData(showData);
-  };
-
   const getMuiPaginationInfo = (value) => {
     const showData = METADATA.slice(value.startIndex - 1, value.toIndex);
     setMuiDisplayData(showData);
+  };
+
+  const getVanillaPaginationInfo = (value) => {
+    const showData = METADATA.slice(value.startIndex - 1, value.toIndex);
+    setVanillaDisplayData(showData);
   };
 
   return (
@@ -53,7 +53,9 @@ function App() {
             )}
             <VanillaPagination
               totalUser={METADATA.length}
-              getPaginationInfo={getVanillaPaginationInfo}
+              getVanillaPaginationInfo={getVanillaPaginationInfo}
+              // startIndex={startIndex}
+              // toIndex={toIndex}
             />
           </div>
         </div>
